@@ -94,7 +94,7 @@ function guessNumberGame ($randomNumber) {
         $guessAttempts++
 
         if ($userInput -as [int]) { # Check if can be converted to an integer
-            $guess = [int]$userInput # FIXED: was using $userGuess which doesn't exist!
+            $guess = [int]$userInput 
 
             if ($guess -lt $randomNumber) {
                 Write-Host "Too low! Try again." -ForegroundColor Red
@@ -135,9 +135,6 @@ function main {
 
     # Generate a random number based on the user's choice
     $randomNumber = generateRandomNumber $choice
-
-    Write-Host "Random number generated: $randomNumber" -ForegroundColor Green
-
 
     Write-Host "A random number has been generated in the range $choice." -ForegroundColor Cyan
     Write-Host "Try to guess the number!" -ForegroundColor Yellow
