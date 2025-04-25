@@ -28,101 +28,88 @@ function getRandomNumberBetween1And100 {
 }
 
 function getUserChoice {
-	$validChoice = $false
-	$choice = $null
+    $validChoice = $false
+    $choice = $null
 
-	while (-not $validChoice) { # -not is pretty straightforward, it means not valid
-		Write-Host "Welcome to the Guessing Game!"
-		Write-Host "Choose a number range:"
-		Write-Host "1. 1-10"
-		Write-Host "2. 1-50"
-		Write-Host "3. 1-100"
-		write-host "Enter your choice (1, 2, or 3):"
-		$choice = Read-Host
+    while (-not $validChoice) {
+        Write-Host "Choose a number range:" -ForegroundColor Cyan
+        Write-Host "1. 1-10" -ForegroundColor White
+        Write-Host "2. 1-50" -ForegroundColor White
+        Write-Host "3. 1-100" -ForegroundColor White
+        Write-Host "Enter your choice (1, 2, or 3):" -ForegroundColor Yellow
+        $choice = Read-Host
 
-		switch ($choice) {
-			"1" {
-				$validChoice = $true
-				return "1-10"
-			}
-			"2" {
-				$validChoice = $true
-				return "1-50"
-			}
-			"3" {
-				$validChoice = $true
-				return "1-100"
-			}
-			default {
-				Write-Host "Invalid choice. Please enter 1, 2, or 3."
-			}
-		}
-	}
-
-
+        switch ($choice) {
+            "1" {
+                $validChoice = $true
+                return "1-10"
+            }
+            "2" {
+                $validChoice = $true
+                return "1-50"
+            }
+            "3" {
+                $validChoice = $true
+                return "1-100"
+            }
+            default {
+                Write-Host "Invalid choice. Please enter 1, 2, or 3." -ForegroundColor Red
+            }
+        }
+    }
 }
 
-function generateRandomNumber ($choice) {
-	switch ($choice) {
-		"1-10" { return getRandomNumberBetween1And10 }
-		"1-50" { return getRandomNumberBetween1And50 }
-		"1-100" { return getRandomNumberBetween1And100 }
-		default { Write-Host "Invalid choice." }
-	}
-}
 
 function guessNumberGame ($randomNumber) {
-	$guess = 0
-	while ($guess -ne $randomNumber) { # -ne means not equal to
-		$guess = Read-Host "Enter your guess"
-		if ($guess -as [int]) { # -as [int] checks if the input can be converted to an integer
-			if ($guess -lt $randomNumber) { # -lt means less than
-				Write-Host "Too low! Try again."
-			} elseif ($guess -gt $randomNumber) { # -gt means greater than
-				Write-Host "Too high! Try again."
-			} else {
-				Write-Host "Congratulations! You guessed the number $randomNumber!"
-			}
-		} else {
-			Write-Host "Invalid input. Please enter a number."
-			getUserChoice # Call the function again to get a valid input
-		}
-	}
+    $guess = 0
+    while ($guess -ne $randomNumber) { # -ne means not equal to
+        Write-Host "Enter your guess:" -ForegroundColor Yellow -NoNewline
+        $guess = Read-Host
+        if ($guess -as [int]) { # -as [int] checks if the input can be converted to an integer
+            if ($guess -lt $randomNumber) { # -lt means less than
+                Write-Host "Too low! Try again." -ForegroundColor Magenta
+            } elseif ($guess -gt $randomNumber) { # -gt means greater than
+                Write-Host "Too high! Try again." -ForegroundColor Magenta
+            } else {
+                Write-Host "Congratulations! You guessed the number $randomNumber!" -ForegroundColor Green
+            }
+        } else {
+            Write-Host "Invalid input. Please enter a number." -ForegroundColor Red
+        }
+    }
 }
 
 function playAgain {
-	Write-Host "Do you want to play again? (y/n)"
-	$playAgain = Read-Host
-	if ($playAgain -eq "y") {
-		main
-	} elseif ($playAgain -eq "n") {
-		Write-Host "Thanks for playing!"
-	} else {
-		Write-Host "Invalid input. Please enter 'y' or 'n'."
-		playAgain
-	}
+    Write-Host "Do you want to play again? (y/n)" -ForegroundColor Yellow -NoNewline
+    $playAgain = Read-Host
+    if ($playAgain -eq "y") {
+        main
+    } elseif ($playAgain -eq "n") {
+        Write-Host "Thanks for playing!" -ForegroundColor Green
+    } else {
+        Write-Host "Invalid input. Please enter 'y' or 'n'." -ForegroundColor Red
+        playAgain
+    }
 }
 
 function main {
-	# Get the user's choice of number range
-	$choice = getUserChoice
+    # Get the user's choice of number range
+    $choice = getUserChoice
 
-	Write-Host "You chose the range: $choice"
+    Write-Host "You chose the range: " -NoNewline -ForegroundColor Cyan
+    Write-Host "$choice" -ForegroundColor White
 
-	# Generate a random number based on the user's choice
-	$randomNumber = generateRandomNumber $choice
+    # Generate a random number based on the user's choice
+    $randomNumber = generateRandomNumber $choice
 
-	Write-Host $randomNumber
+    Write-Host "A random number has been generated in the range $choice." -ForegroundColor Cyan
+    Write-Host "Try to guess the number!" -ForegroundColor Yellow
 
-	Write-Host "A random number has been generated in the range $choice."
-	Write-Host "Try to guess the number!"
+    # Start the guessing game
+    guessNumberGame $randomNumber
 
-	# Start the guessing game
-	guessNumberGame $randomNumber
-
-	# Ask the user if they want to play again
-	playAgain
-
+    # Ask the user if they want to play again
+    playAgain
 }
 
 
