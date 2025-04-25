@@ -36,7 +36,7 @@ function getUserChoice {
         Write-Host "1. 1-10" -ForegroundColor White
         Write-Host "2. 1-50" -ForegroundColor White
         Write-Host "3. 1-100" -ForegroundColor White
-        Write-Host "Enter your choice (1, 2, or 3):" -ForegroundColor Yellow
+        Write-Host "Enter your choice (1, 2, or 3): " -ForegroundColor Yellow -NoNewline
         $choice = Read-Host
 
         switch ($choice) {
@@ -63,7 +63,7 @@ function getUserChoice {
 function guessNumberGame ($randomNumber) {
     $guess = 0
     while ($guess -ne $randomNumber) { # -ne means not equal to
-        Write-Host "Enter your guess:" -ForegroundColor Yellow -NoNewline
+        Write-Host "Enter your guess: " -ForegroundColor Yellow -NoNewline
         $guess = Read-Host
         if ($guess -as [int]) { # -as [int] checks if the input can be converted to an integer
             if ($guess -lt $randomNumber) { # -lt means less than
