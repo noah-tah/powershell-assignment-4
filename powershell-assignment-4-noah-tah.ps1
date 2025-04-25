@@ -19,3 +19,59 @@ Also make sure to tell them if they enter something that is not a number.
 function getRandomNumberBetween1And10 {
 	return Get-Random -Minimum 1 -Maximum 11 # 11 is exclusive meaning it does not include 11
 }
+
+# Function to generate a random number between 1 and 50
+function getRandomNumberBetween1And50 {
+	return Get-Random -Minimum 1 -Maximum 51 # 51 is exclusive meaning it does not include 51
+}
+
+# Function to generate a random number between 1 and 100
+function getRandomNumberBetween1And100 {
+	return Get-Random -Minimum 1 -Maximum 101 # 101 is exclusive meaning it does not include 101
+}
+
+# Function to get the user's choice of number range
+function getUserChoice {
+	write-house "Choose a number range:"
+	write-host "1. 1-10"
+	write-host "2. 1-50"
+	write-host "3. 1-100"
+	write-host "Enter your choice (1, 2, or 3):"
+	$choice = Read-Host
+	switch ($choice) {
+		"1" { return "1-10" }
+		"2" { return "1-50" }
+		"3" { return "1-100" }
+		default { Write-Host "Invalid choice. Please enter 1, 2, or 3." }
+	}
+}
+
+function generateRandomNumber ($choice) {
+	switch ($choice) {
+		"1-10" { return getRandomNumberBetween1And10 }
+		"1-50" { return getRandomNumberBetween1And50 }
+		"1-100" { return getRandomNumberBetween1And100 }
+		default { Write-Host "Invalid choice." }
+	}
+}
+
+# Main function
+function main {
+	# Get the user's choice of number range
+	$choice = getUserChoice
+
+	Write-Host "You chose the range: $choice"
+
+	# Generate a random number based on the user's choice
+	$randomNumber = generateRandomNumber $choice
+
+	Write-Host "A random number has been generated in the range $choice."
+	Write-Host "Try to guess the number!"
+
+
+
+
+}
+
+
+
