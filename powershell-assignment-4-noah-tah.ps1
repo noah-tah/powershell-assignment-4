@@ -28,18 +28,37 @@ function getRandomNumberBetween1And100 {
 }
 
 function getUserChoice {
-	write-house "Choose a number range:"
-	write-host "1. 1-10"
-	write-host "2. 1-50"
-	write-host "3. 1-100"
-	write-host "Enter your choice (1, 2, or 3):"
-	$choice = Read-Host
-	switch ($choice) {
-		"1" { return "1-10" }
-		"2" { return "1-50" }
-		"3" { return "1-100" }
-		default { Write-Host "Invalid choice. Please enter 1, 2, or 3." }
+	$validChoice = $false
+	$choice = $null
+
+	while (-not $validChoice) {
+		Write-Host "Choose a number range:"
+		Write-Host "1. 1-10"
+		Write-Host "2. 1-50"
+		Write-Host "3. 1-100"
+		write-host "Enter your choice (1, 2, or 3):"
+		$choice = Read-Host
+
+		switch ($choice) {
+			"1" {
+				$validChoice = $true
+				return "1-10"
+			}
+			"2" {
+				$validChoice = $true
+				return "1-50"
+			}
+			"3" {
+				$validChoice = $true
+				return "1-100"
+			}
+			default {
+				Write-Host "Invalid choice. Please enter 1, 2, or 3."
+			}
+		}
 	}
+
+
 }
 
 function generateRandomNumber ($choice) {
@@ -65,6 +84,7 @@ function guessNumberGame ($randomNumber) {
 			}
 		} else {
 			Write-Host "Invalid input. Please enter a number."
+			getUserChoice # Call the function again to get a valid input
 		}
 	}
 }
@@ -90,6 +110,8 @@ function main {
 
 	# Generate a random number based on the user's choice
 	$randomNumber = generateRandomNumber $choice
+
+	Write-Host $randomNumber
 
 	Write-Host "A random number has been generated in the range $choice."
 	Write-Host "Try to guess the number!"
