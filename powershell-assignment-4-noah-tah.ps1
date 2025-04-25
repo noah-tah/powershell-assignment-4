@@ -31,7 +31,8 @@ function getUserChoice {
 	$validChoice = $false
 	$choice = $null
 
-	while (-not $validChoice) {
+	while (-not $validChoice) { # -not is pretty straightforward, it means not valid
+		Write-Host "Welcome to the Guessing Game!"
 		Write-Host "Choose a number range:"
 		Write-Host "1. 1-10"
 		Write-Host "2. 1-50"
