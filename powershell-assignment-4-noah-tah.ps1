@@ -16,15 +16,18 @@ Also make sure to tell them if they enter something that is not a number.
 
 
 function getRandomNumberBetween1And10 {
-	return Get-Random -Minimum 1 -Maximum 11 # 11 is exclusive meaning it does not include 11
+    # We typecast the result to an integer using [int] to ensure we get a whole number
+	return [int](Get-Random -Minimum 1 -Maximum 11) # 11 is exclusive meaning it does not include 11
 }
 
 function getRandomNumberBetween1And50 {
-	return Get-Random -Minimum 1 -Maximum 51 # 51 is exclusive meaning it does not include 51
+    # We typecast the result to an integer using [int] to ensure we get a whole number
+	return [int](Get-Random -Minimum 1 -Maximum 51) # 51 is exclusive meaning it does not include 51
 }
 
 function getRandomNumberBetween1And100 {
-	return Get-Random -Minimum 1 -Maximum 101 # 101 is exclusive meaning it does not include 101
+    # We typecast the result to an integer using [int] to ensure we get a whole number
+	return [int](Get-Random -Minimum 1 -Maximum 101) # 101 is exclusive meaning it does not include 101
 }
 
 function getUserChoice {
@@ -59,21 +62,52 @@ function getUserChoice {
     }
 }
 
+function generateRandomNumber ($choice) {
+    $randomNumber = $null
+    switch ($choice) {
+        "1-10" {
+            $randomNumber = getRandomNumberBetween1And10
+            return $randomNumber
+        }
+        "1-50" {
+            $randomNumber = getRandomNumberBetween1And50
+            return $randomNumber
+        }
+        "1-100" {
+            $randomNumber = getRandomNumberBetween1And100
+            return $randomNumber
+        }
+        default {
+            Write-Host "Invalid choice. No random number generated." -ForegroundColor Red
+            return $null
+        }
+    }
+}
 
 function guessNumberGame ($randomNumber) {
-    $guess = 0
-    while ($guess -ne $randomNumber) { # -ne means not equal to
+    $guessAttempts = 0
+    $isCorrect = $false
+
+    while (-not $isCorrect) {
         Write-Host "Enter your guess: " -ForegroundColor Yellow -NoNewline
-        $guess = Read-Host
-        if ($guess -as [int]) { # -as [int] checks if the input can be converted to an integer
-            if ($guess -lt $randomNumber) { # -lt means less than
-                Write-Host "Too low! Try again." -ForegroundColor Magenta
-            } elseif ($guess -gt $randomNumber) { # -gt means greater than
-                Write-Host "Too high! Try again." -ForegroundColor Magenta
-            } else {
-                Write-Host "Congratulations! You guessed the number $randomNumber!" -ForegroundColor Green
+        $userInput = Read-Host
+        $guessAttempts++
+
+        if ($userInput -as [int]) { # Check if can be converted to an integer
+            $guess = [int]$userInput # FIXED: was using $userGuess which doesn't exist!
+
+            if ($guess -lt $randomNumber) {
+                Write-Host "Too low! Try again." -ForegroundColor Red
+            } 
+            elseif ($guess -gt $randomNumber) {
+                Write-Host "Too high! Try again." -ForegroundColor Red
+            } 
+            else {
+                Write-Host "Congratulations! You guessed the number in $guessAttempts attempts!" -ForegroundColor Green
+                $isCorrect = $true
             }
-        } else {
+        } 
+        else {
             Write-Host "Invalid input. Please enter a number." -ForegroundColor Red
         }
     }
@@ -101,6 +135,9 @@ function main {
 
     # Generate a random number based on the user's choice
     $randomNumber = generateRandomNumber $choice
+
+    Write-Host "Random number generated: $randomNumber" -ForegroundColor Green
+
 
     Write-Host "A random number has been generated in the range $choice." -ForegroundColor Cyan
     Write-Host "Try to guess the number!" -ForegroundColor Yellow
