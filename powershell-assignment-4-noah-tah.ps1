@@ -15,22 +15,18 @@ Also make sure to tell them if they enter something that is not a number.
 #>
 
 
-# Function to generate a random number between 1 and 10
 function getRandomNumberBetween1And10 {
 	return Get-Random -Minimum 1 -Maximum 11 # 11 is exclusive meaning it does not include 11
 }
 
-# Function to generate a random number between 1 and 50
 function getRandomNumberBetween1And50 {
 	return Get-Random -Minimum 1 -Maximum 51 # 51 is exclusive meaning it does not include 51
 }
 
-# Function to generate a random number between 1 and 100
 function getRandomNumberBetween1And100 {
 	return Get-Random -Minimum 1 -Maximum 101 # 101 is exclusive meaning it does not include 101
 }
 
-# Function to get the user's choice of number range
 function getUserChoice {
 	write-house "Choose a number range:"
 	write-host "1. 1-10"
@@ -55,7 +51,6 @@ function generateRandomNumber ($choice) {
 	}
 }
 
-# function to handle the guessing game
 function guessNumberGame ($randomNumber) {
 	$guess = 0
 	while ($guess -ne $randomNumber) { # -ne means not equal to
@@ -87,7 +82,6 @@ function playAgain {
 	}
 }
 
-# Main function
 function main {
 	# Get the user's choice of number range
 	$choice = getUserChoice
@@ -100,13 +94,11 @@ function main {
 	Write-Host "A random number has been generated in the range $choice."
 	Write-Host "Try to guess the number!"
 
+	# Start the guessing game
 	guessNumberGame $randomNumber
 
+	# Ask the user if they want to play again
 	playAgain
-
-
-
-
 
 }
 
