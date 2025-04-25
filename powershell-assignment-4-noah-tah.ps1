@@ -55,6 +55,38 @@ function generateRandomNumber ($choice) {
 	}
 }
 
+# function to handle the guessing game
+function guessNumberGame ($randomNumber) {
+	$guess = 0
+	while ($guess -ne $randomNumber) { # -ne means not equal to
+		$guess = Read-Host "Enter your guess"
+		if ($guess -as [int]) { # -as [int] checks if the input can be converted to an integer
+			if ($guess -lt $randomNumber) { # -lt means less than
+				Write-Host "Too low! Try again."
+			} elseif ($guess -gt $randomNumber) { # -gt means greater than
+				Write-Host "Too high! Try again."
+			} else {
+				Write-Host "Congratulations! You guessed the number $randomNumber!"
+			}
+		} else {
+			Write-Host "Invalid input. Please enter a number."
+		}
+	}
+}
+
+function playAgain {
+	Write-Host "Do you want to play again? (y/n)"
+	$playAgain = Read-Host
+	if ($playAgain -eq "y") {
+		main
+	} elseif ($playAgain -eq "n") {
+		Write-Host "Thanks for playing!"
+	} else {
+		Write-Host "Invalid input. Please enter 'y' or 'n'."
+		playAgain
+	}
+}
+
 # Main function
 function main {
 	# Get the user's choice of number range
@@ -67,6 +99,11 @@ function main {
 
 	Write-Host "A random number has been generated in the range $choice."
 	Write-Host "Try to guess the number!"
+
+	guessNumberGame $randomNumber
+
+	playAgain
+
 
 
 
