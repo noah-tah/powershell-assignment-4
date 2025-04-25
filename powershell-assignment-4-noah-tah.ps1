@@ -16,3 +16,6 @@ Also make sure to tell them if they enter something that is not a number.
 
 
 # Function to generate a random number between 1 and 10
+function getRandomNumberBetween1And10 {
+	return Get-Random -Minimum 1 -Maximum 11 # 11 is exclusive meaning it does not include 11
+}
